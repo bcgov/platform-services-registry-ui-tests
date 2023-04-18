@@ -1,0 +1,1 @@
+# platform-services-registry-ui-tests
