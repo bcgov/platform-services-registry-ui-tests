@@ -1,3 +1,5 @@
+[![Lifecycle:Experimental](https://img.shields.io/badge/Lifecycle-Experimental-339999)](<Redirect-URL>)
+
 # platform-services-registry-ui-tests
 
 This is a framework for testing the Registry App. 
