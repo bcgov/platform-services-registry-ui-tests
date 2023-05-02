@@ -25,7 +25,7 @@ function sleep(ms) {
 
 function loginViaAAD(username, password) {
 
-  cy.visit('https://platsrv-registry-web-101ed4-test.apps.silver.devops.gov.bc.ca/')
+  cy.visit(Cypress.env('base_url'))
   cy.get('button').first().click()
 
 
@@ -39,7 +39,7 @@ function loginViaAAD(username, password) {
     },
 
     ({ username }) => {
-      cy.get('input[type="email"]').type(username, {
+      cy.get('input[type="email"]', {timeout:60000}).type(username, {
         log: false,
       })
       cy.get('input[type="submit"]').click();

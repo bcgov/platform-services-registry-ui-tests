@@ -1,0 +1,6 @@
+name: Smoke Test
+on: workflow_dispatch
+jobs:
+  cypress:
+    runs-on: ubuntu-latest
+    steps: 
