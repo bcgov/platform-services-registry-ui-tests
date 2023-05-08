@@ -19,14 +19,12 @@ import './commands'
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+
 
 function loginViaAAD(username, password) {
 
-  cy.visit(Cypress.env('base_url'))
-  cy.get('button').first().click()
+  cy.visit(Cypress.env('base_url'));
+  cy.get('button').first().click();
 
 
   // Login to your AAD tenant.
