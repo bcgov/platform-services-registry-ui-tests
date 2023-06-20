@@ -10,8 +10,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
+        with: 
+          cache-dependency-path: ./package-lock.json
       - name: Registry App UI E2E Smoke test
         uses: cypress-io/github-action@v5
+        with: 
+          cache-dependency-path: ./package-lock.json
         id: smoke
         # Continue the build in case of an error, as we need to set the
         # commit status in the next step, both in case of success and failure
