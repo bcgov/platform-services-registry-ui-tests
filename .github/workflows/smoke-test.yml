@@ -23,4 +23,3 @@ jobs:
           record: false
           # We need to force the install due to version checking
           install-command: npm ci
-          working-directory: testing
