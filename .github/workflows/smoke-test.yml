@@ -1,6 +1,24 @@
-name: Smoke Test
-on: workflow_dispatch
+name: UI Smoke Test
+on: [workflow_dispatch, repository_dispatch, push]
 jobs:
-  cypress:
+  cypress-run:
     runs-on: ubuntu-latest
-    steps: 
+    env:
+      CYPRESS_aad_username: ${{ secrets.AAD_USERNAME }}
+      CYPRESS_aad_password: ${{ secrets.AAD_PASSWORD }}
+      CYPRESS_base_url: ${{ secrets.BASE_URL }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Registry App UI E2E Smoke test
+        uses: cypress-io/github-action@v1
+        id: smoke
+        # Continue the build in case of an error, as we need to set the
+        # commit status in the next step, both in case of success and failure
+        continue-on-error: true
+        with:
+          # No recording of results in the cloud
+          record: false
+          # We need to force the install due to version checking
+          install-command: npm ci
+          working-directory: testing
