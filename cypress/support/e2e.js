@@ -17,11 +17,11 @@
 import './commands'
 import './format-date'
 
+let code = ''
 function loginViaAAD(username, password) {
-
+  cy.log('this is base URL from Env Variable: ' + Cypress.env('base_url'));
   cy.visit(Cypress.env('base_url'));
   cy.get('button').first().click();
-
 
   // Login to your AAD tenant.
   cy.origin(
@@ -31,6 +31,8 @@ function loginViaAAD(username, password) {
         username
       },
     },
+
+    
 
     ({ username }) => {
       cy.get('input[type="email"]', {timeout:60000}).type(username, {
@@ -56,13 +58,12 @@ function loginViaAAD(username, password) {
     () => {
 
       // Waiting for a human to approve login with Microsoft Authenticator
-
-      cy.get('input[value="Yes"]',{timeout:60000}).click()
+      code = cy.get('div[class="displaySign"]').invoke('text');
+      cy.log('The code for auth is: ' + code);
+      cy.get('input[value="Yes"]',{timeout:60000}).click();
     }
 
   )
-
-  
 }
 
 Cypress.Commands.add('loginToAAD', (username, password) => {
@@ -71,10 +72,11 @@ Cypress.Commands.add('loginToAAD', (username, password) => {
     message: [`🔐 Authenticating | ${username}`],
     autoEnd: false,
   })
-  log.snapshot('before')
+  log.snapshot('before');
 
-  loginViaAAD(username, password)
+  loginViaAAD(username, password);
 
-  log.snapshot('after')
-  log.end()
+  log.snapshot('after');
+  log.end();
 })
+

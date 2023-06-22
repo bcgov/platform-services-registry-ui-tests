@@ -1,15 +1,25 @@
 import { getCurrentDateTimeShort } from '../support/format-date.js';
+import * as user from '../fixtures/users/platform.services.test.account.json'
+import * as admin from '../fixtures/users/artem.kravchenko.json'
 let productName = "";
-let currentTime = ""
+let currentTime = "";
 
-describe('Azure Active Directory Authentication', () => {
+describe('Smoke tests set', () => {
   beforeEach(() => {
     // log into Azure Active Directory through our sample SPA using our custom command
-    cy.loginToAAD(Cypress.env('aad_username'), Cypress.env('aad_password'))
+    cy.loginToAAD(Cypress.env('aad_username'), Cypress.env('aad_password'));
   })
 
-  // test itself
+
+  it('Verifies that we are logged in by finding the link with "Create" text', () => {
+    // tag: smoke
+    cy.get('a').contains('Create').should('have.text', 'Create')
+  })
+
+
   it('Creates the product then checks it is visible in Products Tab in Pending status', () => {
+    // tag: smoke
+
     // click Create
     cy.get('a').contains('Create').click({ timeout: 10000 });
     // get current date and time
@@ -24,31 +34,33 @@ describe('Azure Active Directory Authentication', () => {
     cy.get('input[name="ministry"]').parent().click({ timeout: 10000 });
     // click CITZ
     cy.get('li[role="option"]').each((ministry) => {
-        if (ministry.text() == "Citizens' Services (CITZ)") {
-            cy.wrap(ministry).click({ timeout: 10000 });
-        };
+      if (ministry.text() == "Citizens' Services (CITZ)") {
+        cy.wrap(ministry).click({ timeout: 10000 });
+      };
     })
     // click cluster box
     cy.get('input[name="cluster"]').parent().click({ timeout: 10000 });
     // click Silver
     cy.get('li[role="option"]').each((cluster) => {
       if (cluster.text() == "Silver Kamloops") {
-          cy.wrap(cluster).click({ timeout: 10000 });
+        cy.wrap(cluster).click({ timeout: 10000 });
       }
     })
     // start typing email of product owner "platform"
     cy.get('input[id="projectOwner.email"]', { timeout: 10000 }).type("platform");
     // click platform services account
     cy.get('li[role="option"]').each((name) => {
-      if (name.text() == "platform.services.test.account@gov.bc.ca") {
-          cy.wrap(name).click({ timeout: 10000 });
+      if (name.text() == user.email) {
+        cy.log(user.email);
+        cy.wrap(name).click({ timeout: 10000 });
       }
     })
     // type "artem" in techincal lead box 
     cy.get('input[id="primaryTechnicalLead.email"]').type("artem");
     // click artem.kravchenko account
     cy.get('li[role="option"]', { timeout: 10000 }).each((name) => {
-      if (name.text() =="artem.kravchenko@gov.bc.ca") {
+      if (name.text() == admin.email) {
+        cy.log(admin.email);
         cy.wrap(name).click({ timeout: 10000 });
       };
     })
@@ -61,5 +73,6 @@ describe('Azure Active Directory Authentication', () => {
     // check the project with name 
     cy.get('td').contains(productName).should('be.visible');
   })
+
 
 })
