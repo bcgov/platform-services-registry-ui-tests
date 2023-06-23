@@ -16,6 +16,9 @@
 // // Import commands.js using ES2015 syntax:
 import './commands'
 import './format-date'
+import { microsoftOnlineUsernameInput, microsoftOnlineSubmitButton, organizationPagePasswordInput, 
+  organizationPageSubmitButton, microsoftOnlineAuthNumber, microsoftOnlineKeepLoggedInButton } from '../support/selectors.js';
+
 
 let code = ''
 function loginViaAAD(username, password) {
@@ -35,20 +38,20 @@ function loginViaAAD(username, password) {
     
 
     ({ username }) => {
-      cy.get('input[type="email"]', {timeout:60000}).type(username, {
+      cy.get(microsoftOnlineUsernameInput, {timeout:60000}).type(username, {
         log: false,
       })
-      cy.get('input[type="submit"]').click();
+      cy.get(microsoftOnlineSubmitButton).click();
     }
 
   )
 
   // End of "origin" block. Getting redirected to sts.gov.bc.ca
 
-  cy.get('input[type="password"]').type(password, {
+  cy.get(organizationPagePasswordInput).type(password, {
     log: false,
   })
-  cy.get('span[id="submitButton"]').click()
+  cy.get(organizationPageSubmitButton).click()
 
   // Another "origin" block
 
@@ -58,9 +61,11 @@ function loginViaAAD(username, password) {
     () => {
 
       // Waiting for a human to approve login with Microsoft Authenticator
-      code = cy.get('div[class="displaySign"]').invoke('text');
+      code = cy.get(microsoftOnlineAuthNumber).invoke('text').then((text) => {
+        code = text;
+      });
       cy.log('The code for auth is: ' + code);
-      cy.get('input[value="Yes"]',{timeout:60000}).click();
+      cy.get(microsoftOnlineKeepLoggedInButton,{timeout:60000}).click();
     }
 
   )

@@ -19,6 +19,6 @@ describe('Azure Active Directory Authentication', () => {
           cy.wrap(name).click({ timeout: 10000 });
         };
       });
-      cy.get()      
+      cy.get('input[id="projectOwner.firstName"]');     
     })
 })
