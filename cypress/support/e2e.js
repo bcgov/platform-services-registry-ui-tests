@@ -38,10 +38,10 @@ function loginViaAAD(username, password) {
     
 
     ({ username }) => {
-      cy.get(microsoftOnlineUsernameInput, {timeout:60000}).type(username, {
+      cy.get('input[type="email"]', {timeout:60000}).type(username, {
         log: false,
       })
-      cy.get(microsoftOnlineSubmitButton).click();
+      cy.get('input[type="submit"]').click();
     }
 
   )
@@ -61,11 +61,11 @@ function loginViaAAD(username, password) {
     () => {
 
       // Waiting for a human to approve login with Microsoft Authenticator
-      code = cy.get(microsoftOnlineAuthNumber).invoke('text').then((text) => {
+      code = cy.get('div[class="displaySign"]').invoke('text').then((text) => {
         code = text;
       });
       cy.log('The code for auth is: ' + code);
-      cy.get(microsoftOnlineKeepLoggedInButton,{timeout:60000}).click();
+      cy.get('input[value="Yes"]',{timeout:60000}).click();
     }
 
   )

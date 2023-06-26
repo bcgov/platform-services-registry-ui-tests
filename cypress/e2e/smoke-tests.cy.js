@@ -51,7 +51,7 @@ describe('Smoke tests set', () => {
       }
     })
     // start typing email of product owner "platform"
-    cy.get(productProductOwnerInput, { timeout: 10000 }).type("platform");
+    cy.get(productProductOwnerInput, { timeout: 10000 }).type("platfor");
     // click platform services account
     cy.get(DropdownOption).each((name) => {
       if (name.text() == user.email) {
@@ -60,7 +60,7 @@ describe('Smoke tests set', () => {
       }
     })
     // type "artem" in techincal lead box 
-    cy.get(productFirstTechLeadInput).type("artem");
+    cy.get(productFirstTechLeadInput).type("arte");
     // click artem.kravchenko account
     cy.get(DropdownOption, { timeout: 10000 }).each((name) => {
       if (name.text() == admin.email) {
