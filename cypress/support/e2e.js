@@ -35,8 +35,6 @@ function loginViaAAD(username, password) {
       },
     },
 
-    
-
     ({ username }) => {
       cy.get('input[type="email"]', {timeout:60000}).type(username, {
         log: false,
@@ -48,9 +46,7 @@ function loginViaAAD(username, password) {
 
   // End of "origin" block. Getting redirected to sts.gov.bc.ca
 
-  cy.get(organizationPagePasswordInput).type(password, {
-    log: false,
-  })
+  cy.get(organizationPagePasswordInput).type(password, { log: false })
   cy.get(organizationPageSubmitButton).click()
 
   // Another "origin" block
@@ -62,7 +58,7 @@ function loginViaAAD(username, password) {
 
       // Waiting for a human to approve login with Microsoft Authenticator
       code = cy.get('div[class="displaySign"]').invoke('text').then((text) => {
-        code = text;
+        code = text.toString();
       });
       cy.log('The code for auth is: ' + code);
       cy.get('input[value="Yes"]',{timeout:60000}).click();

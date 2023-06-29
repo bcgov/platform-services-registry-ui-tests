@@ -9,16 +9,16 @@ describe('Azure Active Directory Authentication', () => {
   
     
     it('Logs in, pastes the contact email, chooses the name and ', () => {
-      // tag: smoke
+      // tag: specific
       // click Create
       cy.get('a').contains('Create').click({ timeout: 10000 });
-      cy.get('input[id="projectOwner.email"]', { timeout: 10000 }).invoke('val', user.email);
+      cy.get(productProductOwnerInput, { timeout: 10000 }).invoke('val', user.email);
       // click platform.services.test.account@gov.bc.ca account
-      cy.get('li[role="option"]', { timeout: 10000 }).each((name) => {
+      cy.get(DropdownOption, { timeout: 10000 }).each((name) => {
         if (name.text() == user.email) {
           cy.wrap(name).click({ timeout: 10000 });
         };
       });
-      cy.get('input[id="projectOwner.firstName"]');     
+      cy.get(productProductOwnerFirstName);     
     })
 })

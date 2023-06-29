@@ -15,6 +15,7 @@ export const productDescriptionTextField = 'textarea[name="description"]';
 export const productMinistryInput = 'input[name="ministry"]';
 export const productClusterInput = 'input[name="cluster"]';
 export const productProductOwnerInput = 'input[id="projectOwner.email"]';
+export const productProductOwnerFirstName = 'input[id="projectOwner.firstName"]';
 export const productFirstTechLeadInput = 'input[id="primaryTechnicalLead.email"]';
 export const productCreateButton = 'button[type="submit"]';
 export const productConfirmationPopupSubmit = 'button[type="button"]';

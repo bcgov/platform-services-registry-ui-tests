@@ -1,4 +1,7 @@
 import { getCurrentDateTimeShort } from '../support/format-date.js';
+import { decrypted } from '../support/decode.js';
+import { blah } from '../support/decode.js';
+import { heh } from '../support/decode.js';
 import * as user from '../fixtures/users/platform.services.test.account.json';
 import * as admin from '../fixtures/users/artem.kravchenko.json';
 import { DropdownOption, productNameTextField, productDescriptionTextField, 
@@ -9,9 +12,16 @@ let productName = "";
 let currentTime = "";
 
 describe('Smoke tests set', () => {
+  let actor = 'user'
   beforeEach(() => {
     // log into Azure Active Directory through our sample SPA using our custom command
-    cy.loginToAAD(Cypress.env('aad_username'), Cypress.env('aad_password'));
+    if (actor == 'user'){
+      cy.log(user.email);
+      cy.loginToAAD(user.email, Cypress.env('aad_password'));
+    }
+    else {
+      cy.loginToAAD(admin.email, decrypted(Cypress.env('admin_password')));
+      }
   })
 
 
@@ -22,7 +32,7 @@ describe('Smoke tests set', () => {
 
 
   it('Creates the product then checks it is visible in Products Tab in Pending status', () => {
-    // tag: smoke
+    // tag: smoke, stage1
 
     // click Create
     cy.get('a').contains('Create').click({ timeout: 10000 });
@@ -76,6 +86,13 @@ describe('Smoke tests set', () => {
     cy.get('div').contains("PENDING DECISION").should('be.visible');
     // check the project with name 
     cy.get('td').contains(productName).should('be.visible');
+  })
+
+  actor = 'admin';
+  productName = 'Artem Test June 19.1 with Oamar and Zhanna Deletion Check'
+  it.only('Logs in with admin role and approves the Product', () => {
+    cy.get('a[contains]')
+    cy.get('td').contains(productName).should('be.visible').click();
   })
 
 
