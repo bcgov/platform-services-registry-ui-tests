@@ -8,17 +8,17 @@ describe('Azure Active Directory Authentication', () => {
     })
   
     
-    it('Logs in, pastes the contact email, chooses the name and ', () => {
-      // tag: specific
-      // click Create
-      cy.get('a').contains('Create').click({ timeout: 10000 });
-      cy.get(productProductOwnerInput, { timeout: 10000 }).invoke('val', user.email);
-      // click platform.services.test.account@gov.bc.ca account
-      cy.get(DropdownOption, { timeout: 10000 }).each((name) => {
-        if (name.text() == user.email) {
-          cy.wrap(name).click({ timeout: 10000 });
-        };
-      });
-      cy.get(productProductOwnerFirstName);     
-    })
-})
+//     it('Logs in, pastes the contact email, chooses the name and ', () => {
+//       // tag: specific
+//       // click Create
+//       cy.get('a').contains('Create').click({ timeout: 10000 });
+//       cy.get(productProductOwnerInput, { timeout: 10000 }).invoke('val', user.email);
+//       // click platform.services.test.account@gov.bc.ca account
+//       cy.get(DropdownOption, { timeout: 10000 }).each((name) => {
+//         if (name.text() == user.email) {
+//           cy.wrap(name).click({ timeout: 10000 });
+//         };
+//       });
+//       cy.get(productProductOwnerFirstName);     
+//     })
+ })

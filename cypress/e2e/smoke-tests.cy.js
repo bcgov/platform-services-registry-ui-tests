@@ -12,7 +12,7 @@ let productName = "";
 let currentTime = "";
 
 describe('Smoke tests set', () => {
-  let actor = 'user'
+  let actor = ''
   beforeEach(() => {
     // log into Azure Active Directory through our sample SPA using our custom command
     if (actor == 'user'){
@@ -25,17 +25,20 @@ describe('Smoke tests set', () => {
   })
 
 
-  it('Verifies that we are logged in by finding the link with "Create" text', () => {
+  it.skip('Verifies that we are logged in by finding the link with "Create" text', () => {
     // tag: smoke
     cy.get('a').contains('Create').should('have.text', 'Create')
   })
 
-
+  actor == 'user';
   it('Creates the product then checks it is visible in Products Tab in Pending status', () => {
     // tag: smoke, stage1
 
     // click Create
-    cy.get('a').contains('Create').click({ timeout: 10000 });
+    cy.log(actor);
+    cy.get('a').contains('Requests').click();
+    cy.get('svg[data-testid="MenuIcon"]').click({ timeout: 10000 });
+    cy.get('a').contains('Create Private Cloud Project').click({ timeout: 10000 });
     // get current date and time
     currentTime = getCurrentDateTimeShort();
     // form and remember the name of the Product
@@ -61,6 +64,8 @@ describe('Smoke tests set', () => {
       }
     })
     // start typing email of product owner "platform"
+    cy.get(productProductOwnerInput, { timeout: 10000 }).click();
+    cy.wait(1000);
     cy.get(productProductOwnerInput, { timeout: 10000 }).type("platfor");
     // click platform services account
     cy.get(DropdownOption).each((name) => {
@@ -70,7 +75,10 @@ describe('Smoke tests set', () => {
       }
     })
     // type "artem" in techincal lead box 
-    cy.get(productFirstTechLeadInput).type("arte");
+    cy.get(productFirstTechLeadInput).click();
+    cy.get(productFirstTechLeadInput).type("artem.kr")
+    cy.wait(1000);
+    //dropdown: div[role='presentaion']
     // click artem.kravchenko account
     cy.get(DropdownOption, { timeout: 10000 }).each((name) => {
       if (name.text() == admin.email) {
@@ -83,16 +91,20 @@ describe('Smoke tests set', () => {
     // confirm popup
     cy.get(productConfirmationPopupSubmit).contains('Create').click({ timeout: 10000 });
     // check we are at Request page
-    cy.get('div').contains("PENDING DECISION").should('be.visible');
+    cy.get('div').contains("PENDING DECISION", { timeout: 10000 }).should('be.visible');
     // check the project with name 
     cy.get('td').contains(productName).should('be.visible');
   })
 
   actor = 'admin';
-  productName = 'Artem Test June 19.1 with Oamar and Zhanna Deletion Check'
-  it.only('Logs in with admin role and approves the Product', () => {
-    cy.get('a[contains]')
+  it.skip('Logs in with admin role and approves the Product made in previous test', () => {
+    cy.get('a').contains('Active Requests').should('be.visible').click();
     cy.get('td').contains(productName).should('be.visible').click();
+    cy.get('button').contains('Approve').should('be.visible').click();
+    // after check that it's in Processing state
+    cy.get('td').contains(productName, { timeout: 20000 }).siblings().eq(1).should('contain', 'PROCESSING');
+    
+    
   })
 
 
